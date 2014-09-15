@@ -22,6 +22,7 @@ public class Imple1 implements utilFrameworkABM
 	public <T> void generarABM(Class<T> claseUsuario){
 		String opt = "";
 		listaElementos = new ArrayList<>();
+		listaElementos.removeAll(Collections.singleton(null));
 		do{
 			System.out.println("Opciones: 1 ,2 ,3. Ingrese 0 para salir");
 			br = new BufferedReader(new InputStreamReader(System.in));
@@ -52,8 +53,9 @@ public class Imple1 implements utilFrameworkABM
 	            case "2":  
 	            		 darDeBaja(claseUsuario);
 	                     break;
-	            case "3":  //MODIFICACION
-                    break;
+	            case "3":  
+	            		 Modificar(claseUsuario);
+                    	 break;
 	            
 	            default: 
 	            		 System.out.println("Opcion invalida. Saliendo del proceso ABM");
@@ -168,10 +170,10 @@ public class Imple1 implements utilFrameworkABM
 		}
 		System.out.println("");
 		boolean elementoEliminado = false;
-		for (Object elem : listaElementos ){
+		/*for (Object elem : listaElementos ){
 			try
 			{
-				if(		( campoPK.get(elem)) .equals(valor)	){
+				if(	 (elem!= null)	&& ( campoPK.get(elem)) .equals(valor)	){
 					listaElementos.remove(elem);
 					elementoEliminado = true;
 				}
@@ -180,6 +182,25 @@ public class Imple1 implements utilFrameworkABM
 			{
 				ex.printStackTrace();
 			}
+		}*/
+		@SuppressWarnings("rawtypes")
+		Iterator iter = listaElementos.iterator();
+		Object elem = null;
+		while (iter.hasNext()) {
+			elem = iter.next();
+
+		    try
+			{
+				if(	 (elem!= null)	&& ( campoPK.get(elem)) .equals(valor)	){
+					iter.remove();
+					elementoEliminado = true;
+				}
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+			}
+		        
 		}
 		if(!elementoEliminado)
 			System.out.println("No existe ningun elemento con ese valor de clave primaria");
@@ -193,6 +214,13 @@ public class Imple1 implements utilFrameworkABM
 	{
 		return (Collection<T>)listaElementos;
 	}
+	
+	public <T> void Modificar(Class<T> claseUsuario){
+		
+		
+	}
+
+	
 
 
 
