@@ -13,7 +13,8 @@ public class Imple1 implements utilFrameworkABM
 	List<String> opciones = Arrays.asList("1", "2", "3");
 	private BufferedReader br;
 	public Imple1(){
-			
+		listaElementos = new ArrayList<>();
+		br = new BufferedReader(new InputStreamReader(System.in));
 	}
 
 	private String PedirInput(String mensaje  ){
@@ -32,11 +33,11 @@ public class Imple1 implements utilFrameworkABM
 
 	@SuppressWarnings({"unchecked"})
 	@Override
-	public <T> void generarABM(Class<T> claseUsuario){
+	public <T> void ABM(Class<T> claseUsuario){
 		String opt = "";
-		listaElementos = new ArrayList<>();
+		//listaElementos = new ArrayList<>();
 		listaElementos.removeAll(Collections.singleton(null));
-		br = new BufferedReader(new InputStreamReader(System.in));
+		//br = new BufferedReader(new InputStreamReader(System.in));
 		
 		do{
 			opt = PedirInput("Ingrese 1 para ALTA ,2 para BAJA,3 para MODIFICAR. Ingrese 0 para salir" );
@@ -61,13 +62,16 @@ public class Imple1 implements utilFrameworkABM
 	            case "3":  
 	            		 Modificar(claseUsuario);
                     	 break;
+	            case "0":  
+	            		 System.out.println("Saliendo del proceso ABM");
+		               	 break;
 	            
 	            default: 
-	            		 System.out.println("Opcion invalida. Saliendo del proceso ABM");
+	            		 System.out.println("Opcion invalida.");
 	                     break;
 	        }
 		
-		}while(opciones.contains(opt));
+		}while(!opt.equals("0"));
 		
 	}
 
