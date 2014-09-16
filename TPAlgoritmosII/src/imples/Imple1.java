@@ -16,6 +16,19 @@ public class Imple1 implements utilFrameworkABM
 			
 	}
 
+	private String PedirInput(String mensaje  ){
+		System.out.println(mensaje);
+		String input = "";
+		try
+		{
+			input = br.readLine();
+		}
+		catch(IOException ex)
+		{
+			ex.printStackTrace();
+		}
+		return input;
+	}
 
 	@SuppressWarnings({"unchecked"})
 	@Override
@@ -23,18 +36,10 @@ public class Imple1 implements utilFrameworkABM
 		String opt = "";
 		listaElementos = new ArrayList<>();
 		listaElementos.removeAll(Collections.singleton(null));
+		br = new BufferedReader(new InputStreamReader(System.in));
+		
 		do{
-			System.out.println("Opciones: 1 ,2 ,3. Ingrese 0 para salir");
-			br = new BufferedReader(new InputStreamReader(System.in));
-			try
-			{
-				opt = br.readLine();
-			}
-			catch(IOException ex)
-			{
-				ex.printStackTrace();
-			}
-
+			opt = PedirInput("Ingrese 1 para ALTA ,2 para BAJA,3 para MODIFICAR. Ingrese 0 para salir" );
 			switch (opt) {
 	            case "1":
             		    T nuevoObjeto= null;
@@ -48,7 +53,7 @@ public class Imple1 implements utilFrameworkABM
             			}
             		    listaElementos.add(nuevoObjeto);
 	            		 
-	            		 instanciarNuevoObjeto(claseUsuario, nuevoObjeto);
+            		     Alta(claseUsuario, nuevoObjeto);
 	                     break;
 	            case "2":  
 	            		 darDeBaja(claseUsuario);
@@ -67,11 +72,8 @@ public class Imple1 implements utilFrameworkABM
 	}
 
 	@SuppressWarnings({})
-	private <T> void instanciarNuevoObjeto(Class<T> claseUsuario, T nuevoObjeto)
+	private <T> void Alta(Class<T> claseUsuario, T nuevoObjeto)
 	{
-		
-		
-		
 		miFramework.annotations.claseABM annotationClase = claseUsuario.getAnnotation(miFramework.annotations.claseABM.class);
 		System.out.println("Ingrese los datos del nuevo" + annotationClase.tituloVentanaABM());
 		Field[] fields = claseUsuario.getDeclaredFields();
@@ -81,21 +83,15 @@ public class Imple1 implements utilFrameworkABM
 			miFramework.annotations.PK annotationPK= f.getAnnotation(miFramework.annotations.PK.class);
 			if (annotationCampo.required()){
 			Object valor = "";
+			
 			do {
-			System.out.println("Ingrese " + annotationCampo.nombreParaABM() +" . Maximo "+annotationCampo.maxLength()+ " caracteres");
-			try
-			{
-				valor = br.readLine();
-			}
-			catch(IOException ex)
-			{
-				ex.printStackTrace();
-			}
+			valor = PedirInput("Ingrese " + annotationCampo.nombreParaABM() +" . Maximo "+annotationCampo.maxLength()+ " caracteres");
 			}while(
 			( ((String)valor).length()==0 )
 			|| ( ((String)valor).length()> annotationCampo.maxLength() )
 			|| ( (annotationPK != null ? ClaveRepetida(valor,claseUsuario,f,nuevoObjeto): false ) )
 			);
+			
 			Class<?> fieldtype = f.getType();
 			if (fieldtype.equals(Integer.TYPE)){
 				try {
@@ -142,47 +138,14 @@ public class Imple1 implements utilFrameworkABM
 	
 	private void darDeBaja(Class<?> claseUsuario){
 		
-		Field[] fields = claseUsuario.getDeclaredFields();
-		Field campoPK = null;
-		for(Field f: fields){
-			
-			miFramework.annotations.PK annotationPK= f.getAnnotation(miFramework.annotations.PK.class);
-			if (annotationPK != null){
-				campoPK = f;
-				break;
-			}
-		}
-		if (campoPK==null){
-			System.out.println("No existe campo PK en esta clase!!");
-			return;
-		}
 		
-		System.out.print("Ingrese el valor de la clave '" + campoPK.getName() +"' a eliminar");
+		Field campoPK = ObtenerCampoPK(claseUsuario);
 		Object valor = null;
-		try
-		{
-			valor=br.readLine();
-		}
-		catch(IOException ex1)
-		{
-			// TODO Auto-generated catch block
-			ex1.printStackTrace();
-		}
+		valor = PedirInput("Ingrese el valor de la clave '" + campoPK.getName() +"' a eliminar");
+
 		System.out.println("");
 		boolean elementoEliminado = false;
-		/*for (Object elem : listaElementos ){
-			try
-			{
-				if(	 (elem!= null)	&& ( campoPK.get(elem)) .equals(valor)	){
-					listaElementos.remove(elem);
-					elementoEliminado = true;
-				}
-			}
-			catch(Exception ex)
-			{
-				ex.printStackTrace();
-			}
-		}*/
+
 		@SuppressWarnings("rawtypes")
 		Iterator iter = listaElementos.iterator();
 		Object elem = null;
@@ -205,8 +168,10 @@ public class Imple1 implements utilFrameworkABM
 		if(!elementoEliminado)
 			System.out.println("No existe ningun elemento con ese valor de clave primaria");
 		
+		System.out.println("Eliminado con exito!");
 		return;
 	}
+	
 	
 
 	@SuppressWarnings("unchecked")
@@ -216,8 +181,90 @@ public class Imple1 implements utilFrameworkABM
 	}
 	
 	public <T> void Modificar(Class<T> claseUsuario){
+		Field campoPK = ObtenerCampoPK(claseUsuario);
+		Object valor = null;
+		valor = PedirInput("Ingrese el valor de la clave '" + campoPK.getName() +"' a modificar");
+
+		System.out.println("");
 		
+		boolean elementoEncontrado = false;
+
+		@SuppressWarnings("rawtypes")
+		Iterator iter = listaElementos.iterator();
+		Object elem = null;
+		while ((!elementoEncontrado) && iter.hasNext()  ) {
+			elem = iter.next();
+
+		    try
+			{
+				if(	 (elem!= null)	&& ( campoPK.get(elem)) .equals(valor)	){
+					elementoEncontrado = true;
+				}
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+			}
+		        
+		}
+		if(!elementoEncontrado){
+			System.out.println("No existe ningun elemento con ese valor de clave primaria");
+			return;
+		}
 		
+		Field[] fields = claseUsuario.getDeclaredFields();
+		for(Field f: fields){
+			
+			miFramework.annotations.campoABM annotationCampo= f.getAnnotation(miFramework.annotations.campoABM.class);
+			miFramework.annotations.PK annotationPK= f.getAnnotation(miFramework.annotations.PK.class);
+			if (annotationPK == null){
+			valor = "";
+			do {
+			valor = PedirInput("Ingrese el nuevo " + annotationCampo.nombreParaABM() +" . Maximo "+annotationCampo.maxLength()+ " caracteres");
+			}while(
+			( ((String)valor).length()==0 )
+			|| ( ((String)valor).length()> annotationCampo.maxLength() )
+			 );
+			
+			Class<?> fieldtype = f.getType();
+			if (fieldtype.equals(Integer.TYPE)){
+				try {
+				valor =  Integer.parseInt(((String)valor));
+				}
+				catch(Exception ex)
+				{
+					ex.printStackTrace();
+		        }
+				
+			} 
+			try {
+				f.set(elem,valor);
+				}
+				catch(Exception ex)
+				{
+					ex.printStackTrace();
+		        }
+			}
+		}
+		System.out.println("Modificado con exito!");
+		
+	}
+	
+	private Field ObtenerCampoPK(Class<?> claseUsuario){
+		Field[] fields = claseUsuario.getDeclaredFields();
+		Field campoPK = null;
+		for(Field f: fields){
+			
+			miFramework.annotations.PK annotationPK= f.getAnnotation(miFramework.annotations.PK.class);
+			if (annotationPK != null){
+				campoPK = f;
+				break;
+			}
+		}
+		if (campoPK==null){
+			System.out.println("No existe campo PK en esta clase!!");
+		}
+		return campoPK;
 	}
 
 	
