@@ -7,7 +7,7 @@ import java.lang.reflect.*;
 
 import miFramework.utilFrameworkABM;
 
-public class Imple1 implements utilFrameworkABM
+public class Imple1<T> implements utilFrameworkABM <T>
 {
 	private ArrayList listaElementos;
 	List<String> opciones = Arrays.asList("1", "2", "3");
@@ -33,7 +33,7 @@ public class Imple1 implements utilFrameworkABM
 
 	@SuppressWarnings({"unchecked"})
 	@Override
-	public <T> void ABM(Class<T> claseUsuario){
+	public void ABM(Class<T> claseUsuario){
 		String opt = "";
 		//listaElementos = new ArrayList<>();
 		listaElementos.removeAll(Collections.singleton(null));
@@ -181,7 +181,7 @@ public class Imple1 implements utilFrameworkABM
 	
 
 	@SuppressWarnings("unchecked")
-	public <T> Collection<T> obtenerColeccion(Class<T> claseUsuario)
+	public Collection<T> obtenerColeccion(Class<T> claseUsuario)
 	{
 		return (Collection<T>)listaElementos;
 	}

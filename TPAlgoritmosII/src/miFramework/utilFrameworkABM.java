@@ -2,8 +2,8 @@ package miFramework;
 
 import java.util.Collection;
 
-public interface utilFrameworkABM
+public interface utilFrameworkABM <T>
 {
-	public <T> void ABM(Class<T> claseUsuario);
-	public <T> Collection<T> obtenerColeccion(Class<T> claseUsuario);
+	public void ABM(Class<T> claseUsuario);
+	public Collection<T> obtenerColeccion(Class<T> claseUsuario);
 }
