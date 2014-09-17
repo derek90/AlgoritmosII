@@ -169,8 +169,10 @@ public class Imple1 implements utilFrameworkABM
 			}
 		        
 		}
-		if(!elementoEliminado)
+		if(!elementoEliminado){
 			System.out.println("No existe ningun elemento con ese valor de clave primaria");
+			return;
+		}
 		
 		System.out.println("Eliminado con exito!");
 		return;
