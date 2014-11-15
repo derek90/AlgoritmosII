@@ -2,10 +2,12 @@ package imples.Test;
 
 import imples.Imple1;
 
+import java.awt.EventQueue;
 import java.io.*;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import GUI.Principal;
 import miFramework.utilFrameworkABM;
 
 @SuppressWarnings("unused")
@@ -18,6 +20,13 @@ public class TestImple
 
 	public static void main(String[] args)
 	{
+		EventQueue.invokeLater(new Runnable(){
+			@Override
+			public void run(){
+				Principal ventanaPrincipal = new Principal();
+				ventanaPrincipal.setVisible(true);
+			}
+		});
 		System.out.println("Prueba del framework");
 		Collection<Alumno> miLista = null;
 		utilFrameworkABM utilFW = new Imple1();
