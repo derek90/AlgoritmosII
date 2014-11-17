@@ -44,6 +44,8 @@ public class Alta_frame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		//Estos campos están hardcodeados, tienen que cargarse los que sea que el usuario cree, puden ser más y llamarse como el usuario indique
+		
 		JLabel lblNombre = new JLabel("Nombre:");
 		lblNombre.setBounds(10, 11, 72, 14);
 		contentPane.add(lblNombre);

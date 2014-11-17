@@ -98,6 +98,7 @@ public class Ventana_principal extends JFrame  {
 		textField.setColumns(10);
 		
 		JComboBox comboBox = new JComboBox();
+		//Ésta lista está hardcodeada, habría que hacer que cargue los campos que el usuario cree (puede ser cualquier cantidad y llamarse como al usuario se le antoje)
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"", "Legajo", "Nombre", "Promedio"}));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
