@@ -1,6 +1,6 @@
 package imples.Test;
 
-import gui.Principal;
+import gui.Ventana_principal;
 import imples.Imple1;
 
 import java.io.*;
@@ -19,7 +19,7 @@ public class TestImple
 
 	public static void main(String[] args)
 	{
-		Principal ventanaPrincipal = new Principal();
+		Ventana_principal.main(args);
 		System.out.println("Prueba del framework");
 		Collection<Alumno> miLista = null;
 		utilFrameworkABM utilFW = new Imple1();
