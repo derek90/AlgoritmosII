@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.JComboBox;
+import javax.swing.ListSelectionModel;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -24,6 +25,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.ScrollPaneConstants;
 
 
 public class Ventana_principal extends JFrame  {
@@ -32,6 +36,7 @@ public class Ventana_principal extends JFrame  {
 	private static BufferedReader br;
 	private JPanel contentPane;
 	private JTextField textField;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -88,8 +93,6 @@ public class Ventana_principal extends JFrame  {
 		
 		JButton btnModificar = new JButton("Modificar");
 		
-		JScrollPane scrollPane = new JScrollPane();
-		
 		JLabel lblFiltrarPor = new JLabel("Filtrar por:");
 		
 		JLabel lblBuscar = new JLabel("Buscar:");
@@ -100,6 +103,8 @@ public class Ventana_principal extends JFrame  {
 		JComboBox comboBox = new JComboBox();
 		//Ésta lista está hardcodeada, habría que hacer que cargue los campos que el usuario cree (puede ser cualquier cantidad y llamarse como al usuario se le antoje)
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"", "Legajo", "Nombre", "Promedio"}));
+		
+		JScrollPane scrollPane = new JScrollPane();
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -110,8 +115,8 @@ public class Ventana_principal extends JFrame  {
 								.addComponent(btnModificar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 								.addComponent(btnBaja, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 								.addComponent(btnAlta, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 329, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 333, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addContainerGap()
 							.addComponent(lblFiltrarPor)
@@ -133,8 +138,8 @@ public class Ventana_principal extends JFrame  {
 							.addComponent(btnBaja)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(btnModificar))
-						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 198, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
+						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 210, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblBuscar)
 						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -142,6 +147,40 @@ public class Ventana_principal extends JFrame  {
 						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap())
 		);
+		
+		table = new JTable();
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.getTableHeader().setReorderingAllowed(false);
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{"1234567", "Derek", "10"},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+			},
+			new String[] {
+				"Legajo", "Nombre", "Promedio"
+			}
+		)
+		{
+			@Override
+			public boolean isCellEditable(int row, int column){
+				return false;
+			}
+		}
+		);
+		scrollPane.setViewportView(table);
 		contentPane.setLayout(gl_contentPane);
 	}
 }
