@@ -19,6 +19,8 @@ import javax.swing.ListSelectionModel;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -37,6 +39,7 @@ public class Ventana_principal extends JFrame  {
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTable table;
+	private boolean hayUnaVentanaAbierta;
 
 	/**
 	 * Launch the application.
@@ -67,22 +70,34 @@ public class Ventana_principal extends JFrame  {
 	
 
 	
+	@SuppressWarnings("serial")
 	public Ventana_principal() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 800, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
 		JButton btnAlta = new JButton("Alta");
+		hayUnaVentanaAbierta = false;
 		btnAlta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				try {
-					Alta_frame frame = new Alta_frame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
+				if(!hayUnaVentanaAbierta){
+					try {
+						hayUnaVentanaAbierta = true;
+						Alta_frame frame = new Alta_frame();
+						frame.setVisible(true);
+//						frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+						frame.addWindowListener( new WindowAdapter() {
+		                    @Override
+		                    public void windowClosing(WindowEvent we) {
+		                    	hayUnaVentanaAbierta = false;
+		                    }
+		                } );
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 				
 				
@@ -105,6 +120,7 @@ public class Ventana_principal extends JFrame  {
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"", "Legajo", "Nombre", "Promedio"}));
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setHorizontalScrollBar(null);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -116,7 +132,7 @@ public class Ventana_principal extends JFrame  {
 								.addComponent(btnBaja, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 								.addComponent(btnAlta, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 333, GroupLayout.PREFERRED_SIZE))
+							.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 683, Short.MAX_VALUE))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addContainerGap()
 							.addComponent(lblFiltrarPor)
@@ -125,7 +141,7 @@ public class Ventana_principal extends JFrame  {
 							.addGap(18)
 							.addComponent(lblBuscar)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textField, GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)))
+							.addComponent(textField, GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
@@ -138,7 +154,7 @@ public class Ventana_principal extends JFrame  {
 							.addComponent(btnBaja)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(btnModificar))
-						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 210, GroupLayout.PREFERRED_SIZE))
+						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 527, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblBuscar)
@@ -154,31 +170,11 @@ public class Ventana_principal extends JFrame  {
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
 				{"1234567", "Derek", "10"},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
 			},
 			new String[] {
 				"Legajo", "Nombre", "Promedio"
 			}
 		)
-		{
-			@Override
-			public boolean isCellEditable(int row, int column){
-				return false;
-			}
-		}
 		);
 		scrollPane.setViewportView(table);
 		contentPane.setLayout(gl_contentPane);
