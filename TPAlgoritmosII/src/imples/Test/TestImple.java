@@ -19,22 +19,22 @@ public class TestImple
 
 	public static void main(String[] args)
 	{
-		Ventana_principal.main(args);
-		System.out.println("Prueba del framework");
-		Collection<Alumno> miLista = null;
-		utilFrameworkABM utilFW = new Imple1();
-		utilFW.ABM(Alumno.class);
-		miLista = utilFW.obtenerColeccion(Alumno.class);
-		for (Alumno a:miLista){
-			System.out.println(a);
-		}
-		System.out.println("Vuelvo a llamar al ABM a ver si anda bien..");
-		utilFW.ABM(Alumno.class);
-		miLista = utilFW.obtenerColeccion(Alumno.class);
-		
-		for (Alumno a:miLista){
-			System.out.println(a);
-		}
+//		Ventana_principal.main(args);
+//		System.out.println("Prueba del framework");
+//		Collection<Alumno> miLista = null;
+//		utilFrameworkABM utilFW = new Imple1();
+//		utilFW.ABM(Alumno.class);
+//		miLista = utilFW.obtenerColeccion(Alumno.class);
+//		for (Alumno a:miLista){
+//			System.out.println(a);
+//		}
+//		System.out.println("Vuelvo a llamar al ABM a ver si anda bien..");
+//		utilFW.ABM(Alumno.class);
+//		miLista = utilFW.obtenerColeccion(Alumno.class);
+//		
+//		for (Alumno a:miLista){
+//			System.out.println(a);
+//		}
 
 	}
 

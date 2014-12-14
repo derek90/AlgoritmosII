@@ -78,8 +78,8 @@ public class Imple1<T> implements utilFrameworkABM <T>
 	@SuppressWarnings({})
 	private <T> void Alta(Class<T> claseUsuario, T nuevoObjeto)
 	{
-		miFramework.annotations.claseABM annotationClase = claseUsuario.getAnnotation(miFramework.annotations.claseABM.class);
-		System.out.println("Ingrese los datos del nuevo" + annotationClase.tituloVentanaABM());
+//		miFramework.annotations.claseABM annotationClase = claseUsuario.getAnnotation(miFramework.annotations.claseABM.class);
+//		System.out.println("Ingrese los datos del nuevo" + annotationClase.tituloVentanaABM());
 		Field[] fields = claseUsuario.getDeclaredFields();
 		for(Field f: fields){
 			

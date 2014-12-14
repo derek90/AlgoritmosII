@@ -2,7 +2,7 @@ package imples.Test;
 
 import miFramework.annotations.*;
 
-@claseABM(tituloVentanaABM="Alumno")
+
 public class Alumno
 {
 	@PK
