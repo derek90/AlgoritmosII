@@ -8,4 +8,5 @@ public @interface campoABM
 String nombreParaABM(); 
 boolean required() default true;
 int maxLength() default 30;
+boolean editable() default true;
 }

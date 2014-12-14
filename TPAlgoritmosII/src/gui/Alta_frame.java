@@ -30,8 +30,8 @@ public class Alta_frame<T> extends JFrame {
 	private int indexModificando;
 	private boolean filtrado;
 	
-	public void addParLabelTxtBox(String lblNombreCampo, boolean esPK){
-		ParLabelTxtBox par = new ParLabelTxtBox(lblNombreCampo,esPK);
+	public void addParLabelTxtBox(String lblNombreCampo, boolean esPK, boolean editable){
+		ParLabelTxtBox par = new ParLabelTxtBox(lblNombreCampo,esPK,editable);
 		listaLabelsTxtsBoxes.add(par);
     }
 	public Alta_frame(ImpleGrafica<T> objetoImplementacion) {
@@ -52,7 +52,7 @@ public class Alta_frame<T> extends JFrame {
 		int i = 0;
 		for (ParLabelTxtBox par : listaLabelsTxtsBoxes){
 			par.txtInputCampo.setText(valoresTxtBox[i]);
-			if(par.esPK){
+			if(par.esPK || (!par.editable)){
 				par.txtInputCampo.disable();
 			}
 			i++;

@@ -12,6 +12,9 @@ public class Alumno
 	public String nombre;
 	@campoABM(nombreParaABM="Promedio")
 	public int promedio;
+	@campoABM(nombreParaABM="fecha Nac", maxLength = 20, editable = false)
+	public String fechaNacimiento;
+	
 	public Alumno(){
 		
 	}

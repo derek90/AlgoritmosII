@@ -84,8 +84,8 @@ public class Ventana_principal<T> extends JFrame  {
 	/**
 	 * Create the frame.
 	 */
-	public void addParLabelTxtBox(String lblNombreCampo, boolean espK){
-		ventanaAltaModif.addParLabelTxtBox(lblNombreCampo, espK);
+	public void addParLabelTxtBox(String lblNombreCampo, boolean espK,boolean editable){
+		ventanaAltaModif.addParLabelTxtBox(lblNombreCampo, espK,editable);
     }
 	
 	private String[] getListaLabels(){

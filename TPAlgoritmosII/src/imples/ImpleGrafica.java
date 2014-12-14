@@ -112,10 +112,11 @@ public class ImpleGrafica<T> implements utilFrameworkABM <T>
 			miFramework.annotations.campoABM annotationCampo= f.getAnnotation(miFramework.annotations.campoABM.class);
 			miFramework.annotations.PK annotationPK= f.getAnnotation(miFramework.annotations.PK.class);
 			boolean esPK = false;
+			boolean editable = annotationCampo.editable();
 			if (annotationPK != null){
 				esPK = true;
 			}
-			ventana_ppal.addParLabelTxtBox(annotationCampo.nombreParaABM(),esPK);
+			ventana_ppal.addParLabelTxtBox(annotationCampo.nombreParaABM(),esPK,editable);
 		}
 	}
 
