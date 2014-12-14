@@ -93,7 +93,7 @@ public class ImpleGrafica<T> implements utilFrameworkABM <T>
 			try
 			{
 				String valorCampoElementoActual = campoFiltro.get(o).toString();
-				if (valorCampoElementoActual.equals(textoIngresado)){
+				if (valorCampoElementoActual.startsWith(textoIngresado)){
 					listaElementosFiltrada.add(o);
 				}
 			}

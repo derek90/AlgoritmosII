@@ -330,7 +330,14 @@ public class Ventana_principal<T> extends JFrame  {
 						.addComponent(comboBoxFiltro, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap())
 		);
-		model = new DefaultTableModel(getListaLabels(),0);
+		model = new DefaultTableModel(getListaLabels(),0){
+
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		       //all cells false
+		       return false;
+		    }
+		};
 		table = new JTable(model);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.getTableHeader().setReorderingAllowed(false);
