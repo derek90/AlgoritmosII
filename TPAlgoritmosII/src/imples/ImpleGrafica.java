@@ -144,19 +144,38 @@ public class ImpleGrafica<T> implements utilFrameworkABM <T>
 		}
 	    Field[] fields = claseUsuario.getDeclaredFields();
 	    Iterator<String> it = listaTxtBoxes.iterator();
+	    String msjErrorCampo;
 		for(Field f: fields){
+			msjErrorCampo = "";
 			String valorTxtBox = it.next().toString();
 			miFramework.annotations.campoABM annotationCampo= f.getAnnotation(miFramework.annotations.campoABM.class);
 			miFramework.annotations.PK annotationPK= f.getAnnotation(miFramework.annotations.PK.class);
 			if (annotationCampo.required() && (valorTxtBox.length() == 0)){
-				mensajeError += "El campo '" + f.getName() + "' es obligatorio. ";
-			} else if (valorTxtBox.length() > annotationCampo.maxLength()){
-				mensajeError += "El campo '" + f.getName() + "' debe tener como máximo " + annotationCampo.maxLength() + ". ";
+				msjErrorCampo += "El campo '" + f.getName() + "' es obligatorio. ";
+			} 
+			if (valorTxtBox.length() > annotationCampo.maxLength()){
+				msjErrorCampo += "El campo '" + f.getName() + "' debe tener como máximo " + annotationCampo.maxLength() + ". ";
+			} 
+			if ((msjErrorCampo.length() == 0) && annotationPK != null && ClaveRepetida(valorTxtBox,f,nuevoObjeto)){
+				msjErrorCampo += "Ya existe un registro con '"  + f.getName() + "' " + valorTxtBox +".";
 			}
-			else if (annotationPK != null && ClaveRepetida(valorTxtBox,f,nuevoObjeto)){
-				mensajeError += "Ya existe un registro con '"  + f.getName() + "' " + valorTxtBox +".";
-			}
-			else {
+			if ((msjErrorCampo.length() == 0) && (annotationCampo.validador().length() != 0)){
+				Method method = null;
+				Object returnValue = null;
+				try
+				{
+					method = claseUsuario.getMethod(annotationCampo.validador(), new Class[]{String.class});
+					returnValue = method.invoke(null, valorTxtBox);
+				}
+				catch(Exception ex)
+				{
+					// TODO Auto-generated catch block
+					ex.printStackTrace();
+				}
+				String msjErrorValidador = returnValue.toString();
+				msjErrorCampo += msjErrorValidador;
+			} 
+			if (msjErrorCampo.length() == 0){
 				int valor;
 				Class<?> fieldtype = f.getType();
 				if (fieldtype.equals(Integer.TYPE)){
@@ -166,7 +185,7 @@ public class ImpleGrafica<T> implements utilFrameworkABM <T>
 					}
 					catch(Exception ex)
 					{
-						mensajeError += "El campo '" + f.getName() + "' debe ser un numero valido. ";
+						msjErrorCampo += "El campo '" + f.getName() + "' debe ser un numero valido. ";
 						ex.printStackTrace();
 			        }
 				} else {
@@ -178,7 +197,8 @@ public class ImpleGrafica<T> implements utilFrameworkABM <T>
 						ex.printStackTrace();
 			        }
 				}
-			}	
+			}
+			mensajeError += msjErrorCampo;
 		}//fin for
 		if (mensajeError.length() == 0){
 			listaElementos.add(nuevoObjeto);
@@ -217,19 +237,38 @@ public class ImpleGrafica<T> implements utilFrameworkABM <T>
 		}
 	    Field[] fields = claseUsuario.getDeclaredFields();
 	    Iterator<String> it = listaTxtBoxes.iterator();
+	    String msjErrorCampo;
 		for(Field f: fields){
+			msjErrorCampo = "";
 			String valorTxtBox = it.next().toString();
 			miFramework.annotations.campoABM annotationCampo= f.getAnnotation(miFramework.annotations.campoABM.class);
-			miFramework.annotations.PK annotationPK= f.getAnnotation(miFramework.annotations.PK.class);
+			//miFramework.annotations.PK annotationPK= f.getAnnotation(miFramework.annotations.PK.class);
 			if (annotationCampo.required() && (valorTxtBox.length() == 0)){
-				mensajeError += "El campo '" + f.getName() + "' es obligatorio. ";
-			} else if (valorTxtBox.length() > annotationCampo.maxLength()){
-				mensajeError += "El campo '" + f.getName() + "' debe tener como máximo " + annotationCampo.maxLength() + ". ";
+				msjErrorCampo += "El campo '" + f.getName() + "' es obligatorio. ";
+			} 
+			if (valorTxtBox.length() > annotationCampo.maxLength()){
+				msjErrorCampo += "El campo '" + f.getName() + "' debe tener como máximo " + annotationCampo.maxLength() + ". ";
 			}
 //			else if (annotationPK != null && ClaveRepetida(valorTxtBox,f,nuevoObjeto)){
 //				mensajeError += "Ya existe un registro con '"  + f.getName() + "' " + valorTxtBox +".";
 //			}
-			else {
+			if ((msjErrorCampo.length() == 0) && (annotationCampo.validador().length() != 0)){
+				Method method = null;
+				Object returnValue = null;
+				try
+				{
+					method = claseUsuario.getMethod(annotationCampo.validador(), new Class[]{String.class});
+					returnValue = method.invoke(null, valorTxtBox);
+				}
+				catch(Exception ex)
+				{
+					// TODO Auto-generated catch block
+					ex.printStackTrace();
+				}
+				String msjErrorValidador = returnValue.toString();
+				msjErrorCampo += msjErrorValidador;
+			} 
+			if (msjErrorCampo.length() == 0) {
 				int valor;
 				Class<?> fieldtype = f.getType();
 				if (fieldtype.equals(Integer.TYPE)){
@@ -239,7 +278,7 @@ public class ImpleGrafica<T> implements utilFrameworkABM <T>
 					}
 					catch(Exception ex)
 					{
-						mensajeError += "El campo '" + f.getName() + "' debe ser un numero valido. ";
+						msjErrorCampo += "El campo '" + f.getName() + "' debe ser un numero valido. ";
 						ex.printStackTrace();
 			        }
 				} else {
@@ -251,7 +290,8 @@ public class ImpleGrafica<T> implements utilFrameworkABM <T>
 						ex.printStackTrace();
 			        }
 				}
-			}	
+			}
+			mensajeError += msjErrorCampo;
 		}
 		
 		
